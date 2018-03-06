@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       ruleForm2: {
-        user_name: "",
+        user_name: "ivanyb",
         password: ""
       },
       rules2: {
