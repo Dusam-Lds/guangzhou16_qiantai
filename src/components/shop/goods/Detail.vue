@@ -19,7 +19,33 @@
                         <div class="goods-box clearfix">
                             <!--商品图片-->
                             <div class="pic-box">
-
+                                <div class="magnifier" id="magnifier1">
+                                    <div class="magnifier-container">
+                                        <div class="images-cover"></div>
+                                        <!--当前图片显示容器-->
+                                        <div class="move-view"></div>
+                                        <!--跟随鼠标移动的盒子-->
+                                    </div>
+                                    <div class="magnifier-assembly">
+                                        <div class="magnifier-btn">
+                                            <span class="magnifier-btn-left">&lt;</span>
+                                            <span class="magnifier-btn-right">&gt;</span>
+                                        </div>
+                                        <!--按钮组-->
+                                        <div class="magnifier-line">
+                                            <ul class="clearfix animation03">
+                                                <li v-for="item in top.imglist" :key="item.id">
+                                                    <div class="small-img">
+                                                        <img :src="item.original_path" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!--缩略图-->
+                                    </div>
+                                    <div class="magnifier-view"></div>
+                                    <!--经过放大的图片显示容器-->
+                                </div>
                             </div>
                             <!--/商品图片-->
 
@@ -45,7 +71,6 @@
                                         </dd>
                                     </dl>
                                 </div>
-
                                 <div class="spec-box">
                                     <dl>
                                         <dt>购买数量</dt>
@@ -72,7 +97,6 @@
                             </div>
                             <!--/商品信息-->
                         </div>
-
                         <div id="goodsTabs" class="goods-tab bg-wrap">
                             <!--选项卡-->
                             <div id="tabHead" class="tab-head" style="position: static; top: 517px; width: 925px;">
@@ -93,7 +117,6 @@
                             </div>
 
                             <div class="tab-content" style="display: block;">
-                                
 
                                 <!--/网友评论抽為公共組件-->
                             </div>
@@ -103,7 +126,6 @@
                     </div>
                     <!--/页面左边-->
 
-                    
                     <!-- 侧边栏 - 推荐商品列表, 抽取为公共组件 -->
                     <app-aside :list="top.hotgoodslist"></app-aside>
                 </div>
@@ -113,42 +135,60 @@
 </template>
 
 <script>
-import AppAside from './subcom/CommonAside.vue';
+//導入放大鏡插件
+import "@/lib/imgzoom/css/magnifier.css";
+import "@/lib/imgzoom/js/magnifier.js";
+import $ from "jquery";
+import AppAside from "./subcom/CommonAside.vue";
 export default {
-    components: {
-        AppAside
-    },
-    data() {
-        return {
-            num: 1,
-            id: this.$route.params.id,
-            top: {
-                goodsinfo:{},
-                imglist: [],
-                hotgoodslist: []
-            }
+  components: {
+    AppAside
+  },
+  data() {
+    return {
+      num: 1,
+      id: this.$route.params.id,
+      top: {
+        goodsinfo: {},
+        imglist: [],
+        hotgoodslist: []
+      }
+    };
+  },
+  methods: {
+    getTop() {
+      this.$http.get(this.$api.goodsDetail + this.id).then(res => {
+        console.log(res.data.message);
+
+        if (res.data.status == 0) {
+          this.top = res.data.message;
         }
-    },
-    methods: {
-        getTop() {
-            this.$http.get(this.$api.goodsDetail+this.id).then(res=>{
-                console.log(res.data.message);
-                
-                if(res.data.status==0) {
-                    this.top = res.data.message;
-                }
-            })
-        }
-    },
-    created() {
-        this.getTop();
-    },
-    watch: {
-        $route() {
-            this.id = this.$route.params.id;
-            this.getTop();
-        }
+      });
     }
+  },
+  created() {
+    this.getTop();
+  },
+  //視圖掛載到頁面上了，这里可操作dom
+  mounted() {
+      var magnifierConfig = {
+		magnifier : "#magnifier1",//最外层的大容器
+		width : 370,//承载容器宽
+		height : 370,//承载容器高
+		moveWidth : null,//如果设置了移动盒子的宽度，则不计算缩放比例
+		zoom : 5//缩放比例
+    };
+    setTimeout(function() {
+        var _magnifier = $().imgzoon(magnifierConfig);
+    },500);
+
+  },
+  watch: {
+    $route() {
+      this.id = this.$route.params.id;
+      this.getTop();
+    }
+  }
 };
 </script>
 
