@@ -17,7 +17,7 @@
                 <ul class="img-list">
                     <li v-for="subitem in item.datas" :key="subitem.artID">
                         <!-- 点击商品进入详情页，拿到页面需要的商品ID -->
-                        <router-link to="{name:'goodsDetail',params:'id:subitem.artID'}">
+                        <router-link :to="{name: 'goodsDetail', params: {id: subitem.artID}}">
                             <div class="img-box">
                                 <img :src="subitem.img_url">
                             </div>
