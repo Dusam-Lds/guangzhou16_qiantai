@@ -104,7 +104,7 @@
                                     <div v-html="top.goodsinfo.content"></div>
                                 </el-tab-pane>
                                 <el-tab-pane label="商品评论">
-                                    <comment id="id"></comment>
+                                    <comment :id="id"></comment>
                                 </el-tab-pane>
                             </el-tabs>
                         </div>
@@ -146,7 +146,7 @@ export default {
   methods: {
     getTop() {
       this.$http.get(this.$api.goodsDetail + this.id).then(res => {
-        console.log(res.data.message);
+        // console.log(res.data.message);
 
         if (res.data.status == 0) {
           this.top = res.data.message;
@@ -159,7 +159,15 @@ export default {
   },
   //視圖掛載到頁面上了，这里可操作dom
   mounted() {
-    var magnifierConfig = {
+    
+  },
+  watch: {
+    $route() {
+      this.id = this.$route.params.id;
+      this.getTop();
+    },
+    top() {
+        var magnifierConfig = {
       magnifier: "#magnifier1", //最外层的大容器
       width: 370, //承载容器宽
       height: 370, //承载容器高
@@ -169,11 +177,6 @@ export default {
     setTimeout(function() {
       var _magnifier = $().imgzoon(magnifierConfig);
     }, 500);
-  },
-  watch: {
-    $route() {
-      this.id = this.$route.params.id;
-      this.getTop();
     }
   }
 };
