@@ -54,7 +54,7 @@
 
                                 <tr v-for="item in goodsList" :key="item.id">
                                     <th width="48" align="center">
-                                        <el-switch active-color="#13ce66" v-model="item.selected"></el-switch>
+                                        <el-switch :value="selected" active-color="#13ce66" v-model="item.selected"></el-switch>
                                     </th>
                                     <th align="left" colspan="2">
                                         <img width="50" height="50" :src="item.img_url" alt="">
