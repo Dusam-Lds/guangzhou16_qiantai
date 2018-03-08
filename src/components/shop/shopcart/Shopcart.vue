@@ -58,23 +58,23 @@
                                     </th>
                                     <th align="left" colspan="2">
                                         <img width="50" height="50" :src="item.img_url" alt="">
-                                        <span>标题</span>
+                                        <span>{{ item.title }}</span>
                                     </th>
                                     <th width="84" align="left">
-                                        ￥888
+                                        ￥{{ item.sell_price }}
                                     </th>
                                     <th width="104" align="center">
-                                        <el-input-number size="mini" :min="1"></el-input-number>
+                                        <el-input-number v-model="$store.state.cart[item.id]" size="mini" :min="1"></el-input-number>
                                     </th>
                                     <th width="104" align="left">
-                                        <td>￥5434</td>
+                                        <td>￥{{ item.sell_price * $store.state.cart[item.id] }}</td>
                                     </th>
                                     <th width="54" align="center">
                                         <el-button size="mini">删除</el-button>
                                     </th>
                                 </tr>
 
-                                <tr>
+                                <tr v-if="goodsList.length==0">
                                     <td colspan="10">
                                         <div class="msg-tips">
                                             <div class="icon warning"><i class="iconfont icon-tip"></i></div>
@@ -90,9 +90,9 @@
                                 <tr>
                                     <th align="right" colspan="8">
                                         已选择商品
-                                        <b class="red" id="totalQuantity">5</b> 件 &nbsp;&nbsp;&nbsp;
+                                        <b class="red" id="totalQuantity">{{total}}</b> 件 &nbsp;&nbsp;&nbsp;
                                         商品总金额（不含运费）：
-                                        <span class="red">￥</span><b class="red" id="totalAmount">9999</b>元
+                                        <span class="red">￥</span><b class="red" id="totalAmount">{{totalPrice}}</b>元
                                     </th>
                                 </tr>
                             </tbody>
@@ -123,6 +123,18 @@
         computed: {
             allSelected() {
                 return this.goodsList.every(v => v.selected);
+            },
+            //被选商品的总数= 遍历所有商品,如果selected为ture,那么累加商品
+            total() {
+                let sum = 0;
+                this.goodsList.forEach(v => v.selected && (sum += this.$store.state.cart[v.id]));
+                return sum;
+            },
+            //被选商品的总价
+            totalPrice() {
+                let sum = 0;
+                this.goodsList.forEach(v => v.selected && (sum += this.$store.state.cart[v.id]*v.sell_price))
+
             }
         },
         methods: {
@@ -143,6 +155,8 @@
         },
         created() {
             this.getGoodsList();
+            console.log(this.$store.state.cart);
+            
         }
     }
 </script>
