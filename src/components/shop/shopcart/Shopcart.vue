@@ -43,7 +43,7 @@
                             <tbody>
                                 <tr>
                                     <th width="48" align="center">
-                                        <el-switch active-color="#13ce66"></el-switch>
+                                        <el-switch active-color="#13ce66" :value="allSelected" @change="allChange"></el-switch>
                                     </th>
                                     <th align="left" colspan="2">商品信息</th>
                                     <th width="84" align="left">单价</th>
@@ -54,7 +54,7 @@
 
                                 <tr v-for="item in goodsList" :key="item.id">
                                     <th width="48" align="center">
-                                        <el-switch :value="selected" active-color="#13ce66" v-model="item.selected"></el-switch>
+                                        <el-switch active-color="#13ce66" v-model="item.selected"></el-switch>
                                     </th>
                                     <th align="left" colspan="2">
                                         <img width="50" height="50" :src="item.img_url" alt="">
@@ -120,6 +120,11 @@
                 goodsList: [],
             }
         },
+        computed: {
+            allSelected() {
+                return this.goodsList.every(v => v.selected);
+            }
+        },
         methods: {
             getGoodsList() {
                 let ids = Object.keys(this.$store.state.cart);
@@ -129,6 +134,11 @@
                         this.goodsList = res.data.message;
                     }
                 })
+            },
+            // 监听全选按钮的点击事件, 得到新的状态值, 然后遍历所有商品依次设为新的状态
+            allChange(newStatus) {
+                
+                this.goodsList.forEach(v=> v.selected = newStatus);
             }
         },
         created() {
