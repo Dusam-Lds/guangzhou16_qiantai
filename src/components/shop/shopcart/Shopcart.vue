@@ -70,7 +70,7 @@
                                         <td>￥{{ item.sell_price * $store.state.cart[item.id] }}</td>
                                     </th>
                                     <th width="54" align="center">
-                                        <el-button size="mini">删除</el-button>
+                                        <el-button size="mini" @click="del(item.id)">删除</el-button>
                                     </th>
                                 </tr>
 
@@ -151,7 +151,11 @@
             allChange(newStatus) {
                 
                 this.goodsList.forEach(v=> v.selected = newStatus);
-            }
+            },
+           del(id) {
+               this.goodsList = this.goodsList.filter(v => v.id !=id);
+               this.$store.commit('del',id);
+           }
         },
         created() {
             this.getGoodsList();

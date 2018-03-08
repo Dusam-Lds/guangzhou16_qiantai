@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export default {
     //定义 一个相当于data的数据状态
     state: {
@@ -12,6 +14,11 @@ export default {
             // console.log(state.cart);
             localStorage.setItem('cart',JSON.stringify(state.cart));
             
+        },
+        //删除功能
+        del(state, id) {
+            Vue.delete(state.cart, id)
+            localStorage.setItem('cart', JSON.stringify(state.cart));
         }
     },
 }
