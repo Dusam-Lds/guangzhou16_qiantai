@@ -17,7 +17,7 @@ export default {
         // 这里的方法第一个参数固定为state, 由vuex类库固定传递, 第二个参数由方法调用者自由传递, 可传可不传
         modify(state,data) {
             let {id,num} = data;
-            state.cart[id] = num;//根据id修改对应的购买数量值
+            // state.cart[id] = num;//根据id修改对应的购买数量值
             // console.log(state.cart);
             Vue.set(state.cart,id,num);
             localStorage.setItem('cart',JSON.stringify(state.cart));
