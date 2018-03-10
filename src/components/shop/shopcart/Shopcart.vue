@@ -159,7 +159,7 @@
         },
         created() {
             this.getGoodsList();
-            console.log(this.$store.state.cart);
+            // console.log(this.$store.state.cart);
             
         }
     }

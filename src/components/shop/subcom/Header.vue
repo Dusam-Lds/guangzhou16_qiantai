@@ -14,8 +14,9 @@
                     <a><i class="iconfont icon-phone"></i>联系我们</a>
                     <router-link :to="{ name: 'shopcart' }">
                         <i class="iconfont icon-cart"></i>
-                        <span>购物车(100)</span>
-                    </router-link>
+                        <!-- <span>购物车(100)</span> -->
+                        <span>购物车({{ $store.getters.total }})</span>
+                    </router-link>      
                 </div>
             </div>
         </div>
