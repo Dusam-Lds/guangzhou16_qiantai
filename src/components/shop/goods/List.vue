@@ -4,8 +4,8 @@
         <div class="section">
             <div class="location">
                 <span>当前位置：</span>
-                <router-link to="">首页</router-link>
-                <router-link to="">购物商城</router-link>
+                <router-link to="{name:'goodsList'}">首页</router-link>
+                <router-link >购物商城</router-link>
 
             </div>
         </div>

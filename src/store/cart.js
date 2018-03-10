@@ -19,6 +19,7 @@ export default {
             let {id,num} = data;
             state.cart[id] = num;//根据id修改对应的购买数量值
             // console.log(state.cart);
+            Vue.set(state.cart,id,num);
             localStorage.setItem('cart',JSON.stringify(state.cart));
             
         },
